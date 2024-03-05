@@ -32,7 +32,7 @@ public class AACMappings extends java.lang.Object{
    * @return current category
    */
   String getCurrentCategory() {
-    return null;
+    return "food";  // STUB
     //STUB
   }
 
@@ -41,7 +41,7 @@ public class AACMappings extends java.lang.Object{
    * @return an array of all the images in the current category
    */
   String[] getImageLocs() {
-    return null;
+    return new String[] { "img/food/icons8-french-fries-96.png", "img/food/icons8-watermelon-96.png" }; // STUB
   }
 
   /**
@@ -50,7 +50,7 @@ public class AACMappings extends java.lang.Object{
    * @return text associated with imageLoc
    */
   String getText(String imageLoc) {
-    return null;
+    return "television";  // STUB
   }
 
   /**

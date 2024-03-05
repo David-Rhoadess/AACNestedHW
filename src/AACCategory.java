@@ -1,3 +1,5 @@
+import structures.AssociativeArray;
+
 /**
  * Represents the mappings for a single page of items that should be displayed
  * 
@@ -6,6 +8,9 @@
  */
 public class AACCategory extends java.lang.Object{
 
+    String name;
+    AssociativeArray<String, String> category = new AssociativeArray<String, String>();
+
 
   /**
    * Creates a new empty category with the given name
@@ -13,7 +18,7 @@ public class AACCategory extends java.lang.Object{
    * @param name the desired name for the new AACCategory
    */
   AACCategory(String name) {
-    //STUB
+    this.name  = name;
   }
 
 
@@ -35,8 +40,7 @@ public class AACCategory extends java.lang.Object{
    * @return the name of the category
    */
   String getCategory() {
-    return "STUB";
-    //STUB
+    return this.name;
   }
 
 
