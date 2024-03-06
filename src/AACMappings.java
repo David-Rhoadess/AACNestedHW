@@ -1,3 +1,9 @@
+import structures.NullKeyException;
+import structures.KeyNotFoundException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.PrintWriter;
 
 
 
@@ -8,13 +14,27 @@
  */
 public class AACMappings extends java.lang.Object{
 
-
+  PrintWriter pen = new PrintWriter(System.out, true);
+  AACCategory homeScreen;
+  AACCategory current;
   /**
    * Creates a new AACMappings in based on filename
    * @param filename a formatted file
    */
   public AACMappings(String filename) {
-    //STUB
+    AACCategory homeScreen = new AACCategory("");
+    File txtFile = new File(filename);
+    try {
+      Scanner input = new Scanner(txtFile);
+      while (input.hasNextLine()) {
+        String line = input.nextLine();
+        //START HERE
+        input.close();
+      }
+    this.current = homeScreen;
+    } catch(FileNotFoundException e) {
+        pen.println("File Not Found");
+    }
   }
 
 
@@ -24,7 +44,12 @@ public class AACMappings extends java.lang.Object{
    * @param text
    */
   void add(String imageLoc, String text) {
-    //STUB
+    try {   
+      this.homeScreen.addItem(imageLoc, text);
+    } catch(NullKeyException e) {};
+
+    //DO WE NEED TO WORRY ABOUT NULL KEY EXCEPTIONS
+    
   }
 
   /**
@@ -32,8 +57,7 @@ public class AACMappings extends java.lang.Object{
    * @return current category
    */
   String getCurrentCategory() {
-    return "food";  // STUB
-    //STUB
+    return current.getCategory();
   }
 
   /**
@@ -41,7 +65,7 @@ public class AACMappings extends java.lang.Object{
    * @return an array of all the images in the current category
    */
   String[] getImageLocs() {
-    return new String[] { "img/food/icons8-french-fries-96.png", "img/food/icons8-watermelon-96.png" }; // STUB
+    return this.current.getImages();
   }
 
   /**
@@ -50,7 +74,12 @@ public class AACMappings extends java.lang.Object{
    * @return text associated with imageLoc
    */
   String getText(String imageLoc) {
-    return "television";  // STUB
+    if(this.current.hasImage(imageLoc)) {
+      try {
+        return this.current.getText(imageLoc);
+      } catch (KeyNotFoundException e){}
+    }
+    return null;
   }
 
   /**
@@ -59,15 +88,14 @@ public class AACMappings extends java.lang.Object{
    * @return true if the image represents a category or text, false otherwise
    */
   boolean isCategory(String imageLoc) {
-    return false;
-    //STUB
+    return this.current.hasImage(imageLoc);
   }
 
   /**
    * Resets the current category of the AAC back to the default category
    */
   void reset() {
-    //STUB
+    this.current = homeScreen;
   }
 
   /**

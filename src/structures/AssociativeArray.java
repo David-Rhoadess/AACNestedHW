@@ -166,7 +166,7 @@ public class AssociativeArray<K, V> {
   } // size()
 
 
-  String[] getImageLocs() {
+  public String[] getImageLocs() {
     String[] ret = new String[this.size];
     for (int i = 0; i < this.size; i++) {
       ret[i] = (String) this.pairs[i].key;

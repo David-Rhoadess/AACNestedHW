@@ -1,4 +1,6 @@
 import structures.AssociativeArray;
+import structures.KeyNotFoundException;
+import structures.NullKeyException;
 
 /**
  * Represents the mappings for a single page of items that should be displayed
@@ -8,8 +10,8 @@ import structures.AssociativeArray;
  */
 public class AACCategory extends java.lang.Object{
 
-    String name;
-    AssociativeArray<String, String> category = new AssociativeArray<String, String>();
+  String name;
+  AssociativeArray<String, String> imageMap = new AssociativeArray<String, String>();
 
 
   /**
@@ -28,8 +30,8 @@ public class AACCategory extends java.lang.Object{
    * @param imageLoc image to be mapped
    * @param text text to be mapped
    */
-  void addItem(String imageLoc, String text) {
-    //STUB
+  void addItem(String imageLoc, String text) throws NullKeyException {
+    this.imageMap.set(imageLoc, text);
   }
 
 
@@ -49,9 +51,8 @@ public class AACCategory extends java.lang.Object{
    * 
    * @return array of all images in the category
    */
-  String getImages() {
-    return "Stub";
-    //STUB
+  String[] getImages() {
+    return this.imageMap.getImageLocs();
   }
 
   /**
@@ -60,19 +61,17 @@ public class AACCategory extends java.lang.Object{
    * @param imageLoc the location of the desired image
    * @return the text associated with the image at imageloc
    */
-  String getText(String imageLoc) {
-    return "STUB";
-    //STUB
+  String getText(String imageLoc) throws KeyNotFoundException{
+    return this.imageMap.get(imageLoc);
   }
 
   /**
-   * Determines if the provided images is stored in the category
+   * Determines if the provided image is stored in the category
    * 
    * @param imageLoc the image under consideration
    * @return true if there is an image stored in the category, returns false otherwise
    */
   boolean hasImage(String imageLoc) {
-    return false;
-    //STUB
+    return this.imageMap.hasKey(imageLoc);
   }
 }
