@@ -1,4 +1,7 @@
+//START HERE the save function wokrs but the add one does not
+
 import structures.NullKeyException;
+import structures.AssociativeArray;
 import structures.KeyNotFoundException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,12 +20,14 @@ public class AACMappings extends java.lang.Object{
   PrintWriter pen = new PrintWriter(System.out, true);
   AACCategory homeScreen;
   AACCategory current;
+  AssociativeArray<String, AACCategory> allCategories;
   /**
    * Creates a new AACMappings in based on filename
    * @param filename a formatted file
    */
   public AACMappings(String filename) throws Exception{
     this.homeScreen = new AACCategory("");
+    this.allCategories = new AssociativeArray<String, AACCategory>();
     File txtFile = new File(filename);
     try {
       Scanner input = new Scanner(txtFile);
@@ -30,10 +35,13 @@ public class AACMappings extends java.lang.Object{
         String line = input.nextLine();
         String[]splitLine = line.split(" ", 2);
         if(line.charAt(0) != '>') {
+          current = this.homeScreen;
           this.add(splitLine[0], splitLine[1]);
-          current = new AACCategory(splitLine[1]);
+          this.allCategories.set(splitLine[0], new AACCategory(splitLine[1]));
+          current = this.allCategories.get(splitLine[0]);
+          
         } else {
-          this.current.addItem(splitLine[0], splitLine[1]);
+          this.add(splitLine[0].substring(1), splitLine[1]);
         }
       }
     input.close();
@@ -50,9 +58,16 @@ public class AACMappings extends java.lang.Object{
    * @param text
    */
   void add(String imageLoc, String text) {
-    try {   
-      this.homeScreen.addItem(imageLoc, text);
-    } catch(NullKeyException e) {};
+    if (this.getCurrentCategory() == "") {
+      try {   
+        this.homeScreen.addItem(imageLoc, text);
+      } catch(NullKeyException e) {};
+    }
+    else {
+      try {   
+        this.current.addItem(imageLoc, text);
+      } catch(NullKeyException e) {};
+    }
     
   }
 
@@ -78,12 +93,17 @@ public class AACMappings extends java.lang.Object{
    * @return text associated with imageLoc
    */
   String getText(String imageLoc) {
-    if(this.current.hasImage(imageLoc)) {
       try {
-        return this.current.getText(imageLoc);
-      } catch (KeyNotFoundException e){}
+        String cur = this.current.getText(imageLoc);
+        if (this.getCurrentCategory() == "") {
+          this.current = this.allCategories.get(imageLoc);
+        }
+        return cur;
+      } catch(KeyNotFoundException e) {
+        pen.println(e);
+        pen.flush();
+        return null;
     }
-    return null;
   }
 
   /**
@@ -107,6 +127,30 @@ public class AACMappings extends java.lang.Object{
    * @param filename target file
    */
   void writeToFile(String filename) {
-    //STUB
+    AACCategory tempCurrent;
+    File newFile = new File(filename);
+    PrintWriter filePen;
+    try {
+      filePen = new PrintWriter(newFile);
+    } catch(FileNotFoundException e) {
+        filePen = new PrintWriter(System.out, true);
+        filePen.println("Invalid file name");
+        pen.flush();
+        return;
+    }
+    for (int i = 0; i < this.allCategories.size(); i++) {
+      try{
+        tempCurrent = this.homeScreen;
+        filePen.println(this.getImageLocs()[i] + " " + tempCurrent.getText(this.getImageLocs()[i]));
+          tempCurrent = this.allCategories.get(getImageLocs()[i]);
+        String[] images = tempCurrent.getImages();
+        for (int j = 0; j < images.length; j++) {
+          filePen.println(">" + images[j] + " " + tempCurrent.getText(images[j]));
+        }
+      } catch (KeyNotFoundException e) {
+          return;
+      }
+    }
+    filePen.flush();
   }
 }
