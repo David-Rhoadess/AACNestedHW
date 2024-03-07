@@ -24,6 +24,7 @@ import javax.speech.synthesis.SynthesizerModeDesc;
  * communication device of the AAC.
  * 
  * @author Catie Baker
+ * Modified by David Rhoades to throw exceptions
  *
  */
 public class AAC implements ActionListener {
@@ -45,7 +46,7 @@ public class AAC implements ActionListener {
 	 * @param filename the name of the file that contains the 
 	 * images and text that will be in the AAC
 	 */
-	public AAC(String filename){ 
+	public AAC(String filename) throws Exception{ 
 		this.aacMappings = new AACMappings(filename);
 		this.images = this.aacMappings.getImageLocs();
 		this.startIndex = 0;
@@ -129,7 +130,7 @@ public class AAC implements ActionListener {
 		pane.requestFocusInWindow();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 
 		try {
 			// Set property as Kevin Dictionary

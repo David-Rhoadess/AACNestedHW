@@ -5,10 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.PrintWriter;
 
-
+//START HERE, buttons dont work, look at actionperformed method in AAC.
 
 /**
- * An class to keep track of a coplete set of AAC mappings
+ * An class to keep track of a complete set of AAC mappings
  * 
  * @author David Rhoades
  */
@@ -21,16 +21,22 @@ public class AACMappings extends java.lang.Object{
    * Creates a new AACMappings in based on filename
    * @param filename a formatted file
    */
-  public AACMappings(String filename) {
-    AACCategory homeScreen = new AACCategory("");
+  public AACMappings(String filename) throws Exception{
+    this.homeScreen = new AACCategory("");
     File txtFile = new File(filename);
     try {
       Scanner input = new Scanner(txtFile);
       while (input.hasNextLine()) {
         String line = input.nextLine();
-        //START HERE
-        input.close();
+        String[]splitLine = line.split(" ", 2);
+        if(line.charAt(0) != '>') {
+          this.add(splitLine[0], splitLine[1]);
+          current = new AACCategory(splitLine[1]);
+        } else {
+          this.current.addItem(splitLine[0], splitLine[1]);
+        }
       }
+    input.close();
     this.current = homeScreen;
     } catch(FileNotFoundException e) {
         pen.println("File Not Found");
@@ -47,8 +53,6 @@ public class AACMappings extends java.lang.Object{
     try {   
       this.homeScreen.addItem(imageLoc, text);
     } catch(NullKeyException e) {};
-
-    //DO WE NEED TO WORRY ABOUT NULL KEY EXCEPTIONS
     
   }
 

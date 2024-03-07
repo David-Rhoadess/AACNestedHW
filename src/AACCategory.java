@@ -11,7 +11,7 @@ import structures.NullKeyException;
 public class AACCategory extends java.lang.Object{
 
   String name;
-  AssociativeArray<String, String> imageMap = new AssociativeArray<String, String>();
+  AssociativeArray<String, String> imageMap;
 
 
   /**
@@ -21,6 +21,7 @@ public class AACCategory extends java.lang.Object{
    */
   AACCategory(String name) {
     this.name  = name;
+    this.imageMap = new AssociativeArray<String, String>();
   }
 
 
