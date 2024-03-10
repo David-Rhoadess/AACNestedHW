@@ -37,7 +37,7 @@ public class AACMappings extends java.lang.Object{
         if(line.charAt(0) != '>') {
           current = this.homeScreen;
           this.add(splitLine[0], splitLine[1]);
-          this.allCategories.set(splitLine[0], new AACCategory(splitLine[1]));
+          
           current = this.allCategories.get(splitLine[0]);
           
         } else {
@@ -61,6 +61,7 @@ public class AACMappings extends java.lang.Object{
     if (this.getCurrentCategory() == "") {
       try {   
         this.homeScreen.addItem(imageLoc, text);
+        this.allCategories.set(imageLoc, new AACCategory(text));
       } catch(NullKeyException e) {};
     }
     else {
